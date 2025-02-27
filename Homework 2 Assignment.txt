@@ -1,0 +1,55 @@
+﻿Homework 2
+Assignment: Multi-page Interactive Recipe Site
+Objective
+Build a dynamic multi-page recipe web application using Express.js, EJS for templating, MySQL for database storage, and client-side Javascript. The student will become familiar with client-side interactive behavior, Express routing, Database management and connections, as well as dynamic pages through data retrieval. You should meet all the stated requirements, but there is room for creativity.
+________________
+
+
+Project Requirements
+Project Theme
+Each student will create a recipe site featuring their favorite recipes and cooking experience. The site should highlight different recipes categorized by main protein types.
+Express & EJS Pages
+The application should have at least three pages, including:
+* Home Page: Describe your favorite food and cooking experience.
+* Recipe Listing Page: Display a categorized list of recipes retrieved from the database. Separate tables should be used for each main protein type (e.g., Chicken, Beef, Tofu, Grains).
+* Recipe Page: Display a selected recipe, retrieved dynamically using route parameters. Hovering over ingredients shall display a small pop-up window with more information, such as origin of the spice, cooking safety tips, or a fact you find interesting.
+* Add Recipe Page: Show a form for the user to add a new recipe with existing ingredients in the database.
+Each page must be rendered using EJS templates with dynamic data from the database.
+Database Integration (MySQL)
+* The application must be connected to a MySQL database.
+* The database must have at least two tables:
+   * ingredients table containing ingredients and their highlighted information.
+   * recipes table storing details about each recipe, including foreign keys linking it to ingredients.
+* The listing page should fetch categorized data from the database and display it dynamically.
+* There should be at least one form that allows users to insert new recipes into the database.
+Client-Side JavaScript & Interactivity
+* Include the ingredient hover functionality and at least one additional interactive element using client-side JavaScript, including but not limited to:
+   * Search/filter feature for the recipe list.
+   * Form validation before submitting a new recipe.
+   * Dynamically expanding protein tables.
+________________
+
+
+Submission Requirements
+* A GitHub repository containing:
+   * The full project code.
+   * An SQL script to create and populate the database.
+      * This can be created through MySQL Workbench with the Administration tab -> "Data Export"
+   * A README.md file with setup instructions.
+Grading Criteria
+
+
+
+
+Category
+	Points
+	Overall website functionality
+	50
+	Database integration
+	20
+	Frontend (HTML, CSS, JS)
+	20
+	Quality and Creativity
+	10
+	Total
+	100
