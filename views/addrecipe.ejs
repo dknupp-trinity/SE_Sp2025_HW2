@@ -5,41 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Recipe</title>
-    <link rel="stylesheet" type="text/css" href="/public/stylesheets/styles.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
 </head>
 
 <body>
     
-    <header>
-        <h1>Chef David's Elite Cuisine</h1>
-    </header>
-
-    <nav>
-        <div class="navitem"><a href="views/home.ejs">Home</a></div> 
-        <div class="navitem" ><a href="/recipelist.ejs">Recipe List</a></div>
-        <div class="navitem active"><a href="/views/addrecipe.ejs">Add Recipe</a></div>
-        <div class="navitem"><a href="/views/getrecipe.ejs">Get Recipe</a></div>
-    </nav>
+    <%- include('./partials/header') %>
+    <%- include('./partials/nav')%>
     
     <main>
     <h2>Add a new recipe:</h2>
     <form id="recipe-form">
         
         <label for="recipe-name">Recipe Name:</label><br>
-        <input type="text" id="recipe-name" name="recipe_name" required><br><br>
+        <input
+            type="text"
+            id="recipe-name"
+            name="recipe_name"
+            required
+            oninvalid="this.setCustomValidity('Stop! This recipe is RAW!')"
+            oninput="this.setCustomValidity('')"
+            >
+            <br><br>
 
-        <label for="recipe-info">Recipe Info:</label><br>
-        <textarea id="recipe-info" name="recipe_info" required></textarea><br><br>
+        <label for="recipe-info">Recipe Description:</label><br>
+        <textarea
+            id="recipe-info"
+            name="recipe_info"
+            required
+            oninvalid="this.setCustomValidity('Stop! This description is RAW!')"
+            oninput="this.setCustomValidity('')"
+            ></textarea><br><br>
 
-        <label for="instructions">Instructions:</label><br>
-        <textarea id="instructions" name="instructions" required></textarea><br>
+        <label for="instructions">Recipe Directions:</label><br>
+        <textarea
+        id="instructions"
+        name="instructions"
+        required
+        oninvalid="this.setCustomValidity('Stop! These instructions are RAW!')"
+        oninput="this.setCustomValidity('')"
+        ></textarea><br>
         
         <section id="ingredients">
-        <h3 style="max-width: 400px; margin: auto;">use the <b>Add another ingredient</b> button to include more ingredients before submitting the recipe. <br><br>
+        <h3 style="max-width: 400px; margin: auto;">Use the <em>Add Another Ingredient</em> button to include more ingredients before submitting the recipe (optional). <br><br>
             You may select any items from our professionally curated list of gourmet partial-foodstuffs.
             <br><br>
-            Quantities and measurements are irrelevant, as we have our chef instincts to guide us.</h3>
-        <h6 style="font-size: 6px">(and because I don't want to account for <br> like 10 different units of measurement)</h6>
+            You can describe quantities in the Directions field above. Otherwise, the units of measurement are irrelevant, as we have our chef instincts to guide us.</h3>
+        <h6><small>(and because I don't want to account for <br> like 10 different units of measurement)</small></h6>
         
         <div id="ingredient-container">
            
@@ -48,7 +60,7 @@
 
         <button type="submit">Submit Recipe</button>
     </form>
-    <script src="scripts.js"></script>
+    
     </section>
         
 </main>
@@ -59,10 +71,10 @@
     <div>Resources used for this page:
         <ul>
         <li> Copilot for instructions on how to generate a preconfigured element repeatedly</li>
-        <li>Copilot to also help with routes because I was confused for hours (and still am)</li>
+        <li>Copilot to also help with routing script because I was confused for hours (and still am)</li>
         </ul>
     </div>
 </footer>
-
+<script src="/js/scripts.js"></script>
 </body>
 </html>

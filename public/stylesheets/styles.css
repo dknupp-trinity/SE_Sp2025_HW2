@@ -13,22 +13,33 @@ body {
     flex: 1;
 }
 
+
+
 header {
-    background: linear-gradient(to bottom, black, powderblue);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: linear-gradient(to top, powderblue, royalblue);
     height: 100px;
     color: white;
     font: Arial;
     font-size: 18px;
 }
 
+header img {
+    height:inherit;
+    padding-inline: 30px;
+}
+
 nav {
     display: flex;
     align-self: flex-start;
     justify-content: center;
-    background: linear-gradient(to bottom, powderblue, violet);
+    background-color: lightgreen;
     width: 100%;
     text-align: center;
 }
+
 
 
 .navitem {
@@ -48,6 +59,46 @@ nav {
     text-decoration: none;
 }
 
+@keyframes headerGradient {
+    0% {
+        background-position: 100% 100%;
+    }
+    25% {
+        background-position: 0% 100%;
+    }
+    50% {
+        background-position: 0% 0%;
+    }
+    75% {
+        background-position: 100% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+main {
+    display: flex;
+    justify-content: top;
+    align-items: center;
+    text-align: center;
+    color: yellow;
+    font: Arial;
+    flex: 1;
+    flex-direction: column;
+    background: radial-gradient(circle, powderblue , lightseagreen,  magenta);
+    background-position: 100% 100%;
+    background-size: 200% 250%;
+    background-origin: padding-box;
+    animation-name: headerGradient;
+    animation-duration: 100s;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); /* Smooth circular timing - thanks to ChatGPT*/
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+}
+
+
+
 .ingredient-add {
     margin-bottom: 20px;
 }
@@ -63,16 +114,7 @@ footer {
     width: 100%;
 }
 
-main {
-    background-color: powderblue;
-    display: flex;
-    justify-content: top;
-    align-items: center;
-    color: black;
-    font: Arial;
-    flex: 1;
-    flex-direction: column;
-}
+
 
 button {
     background-color: #4caf50; 

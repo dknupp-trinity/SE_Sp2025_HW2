@@ -1,45 +1,41 @@
+//Declaration stuff
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const path = require('path');
 require('dotenv').config();
-const app = express();
-const port = process.env.PORT || 3000;
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+const db = require('./database/connections');
+const recipesRouter = require('./routes/recipes');
 
+const app = express();
+
+
+// 1. View Engine
 app.set('view engine', 'ejs');
 
-const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASS,
-    database: process.env.DATABASE_NAME
+
+// 2. Essential Static Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
+/**
+Route Stuff
+*/
+
+//Suggested for debugging
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
 });
 
-db.connect((err) => {
-    if (err) {
-        throw err;
-    }
-    console.log('MySQL connected...');
-});
+// 3. API Routes
+app.use('/api', recipesRouter);
 
-app.post('/submit_recipe', (req, res) => {
-    const recipe_name = req.body.recipe_name;
-    const description = req.body.description;
-    const ingredients = req.body.ingredients;
 
-    const query = 'INSERT INTO recipes (recipe_name, description, ingredients) VALUES (?, ?, ?)';
-    db.query(query, [recipe_name, description, ingredients], (err, result) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send('Error submitting recipe');
-        } else {
-            res.send('New recipe submitted successfully');
-        }
-    });
+// 4. Page Routes
+app.get('/', (req, res) => {
+    console.log('Redirecting to /home');
+    res.redirect('/home');
 });
 
 app.get('/home', (req, res) => {
@@ -58,8 +54,8 @@ app.get('/getrecipe', (req, res) => {
     res.render('getrecipe');
 });
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+
+// 5. Static files middleware LAST (Claude saved me on this after hours of debugging)
+app.use(express.static(path.join(__dirname, 'public')));
 
 module.exports = app;

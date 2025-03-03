@@ -5,26 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="/public/stylesheets/styles.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
 </head>
 
 
 <body>
     
-    <header>
-        <h1>Chef David's Elite Cuisine</h1>
-    </header>
-
-    <nav>
-        <div class="navitem active"><a href="views/home.ejs">Home</a></div> 
-        <div class="navitem" ><a href="/recipelist.ejs">Recipe List</a></div>
-        <div class="navitem"><a href="/views/addrecipe.ejs">Add Recipe</a></div>
-        <div class="navitem"><a href="/views/getrecipe.ejs">Get Recipe</a></div>
-    </nav>
-    
+    <%- include('./partials/header') %>
+    <%- include('./partials/nav') %>
     
     <main>
+        <section id="page-intro" style="padding-top: 100px; display: flex; flex-direction: row; justify-content: center; align-items: center; position: relative;">
+
+        <img src="graphics/Mario_(Chef).png" alt="(Not actually a picture of me)" style="max-block-size: 150px; right: 200px; position: absolute">
         
+        <h3 style=" top: 50px; width: 400px; text-align: center; position:absolute">
+            Welcome to my food website thing!<br> I'm David, and becoming a chef was actually my first ever dream job when I was a kid.
+        </h3>
+        
+        <img src="graphics/Luigi_(Chef).png" alt="(Not actually a picture of me)" style="max-block-size: 150px; left: 200px; position: absolute">
+        </section>
+        
+        <section style="width: 800px; font-size: large;">
+            <p style="padding-top: 70px;"> From a very young age - maybe five or six - I dreamed of becoming a chef. had food-themed Play-Doh sets, Easy-Bake and Queasy-Bake ovens, and I sometimes placed my cats inside their cylindrical cat-house with a bunch of their toys, rolled it around, and pretended I was making cat soup (no cats were harmed in the making of the soup).</p>
+            
+            <p>I never did a lot of real cooking as a kid; somehow my fascination with cooking did not seem to overcome whatever personal (or parental) obstacles that may have been coming between me and a knife and stove. Eventually, I grew out of the passion, but I did take a cooking intersession in high school. The only thing I can remember making was a loaf of orange-zest bread (and having a very difficult time with the orange zest).</p>
+        </section>
     </main>
     
     
@@ -34,8 +40,6 @@
     
     
     
-    
+    <script src="/js/scripts.js"></script>
 </body>
-
-
 </html>

@@ -1,22 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Replace with actual ingredients fetched from your database
-    let existingIngredients = ['Tomato', 'Cheese', 'Chicken', 'Basil', 'Garlic'];
-
+    let existingIngredients = [];
     const addIngredientButton = document.getElementById('add-ingredient');
     const ingredientContainer = document.getElementById('ingredient-container');
     const form = document.getElementById('recipe-form');
 
-    // Function to fetch ingredients from the server (optional)
-    /*
-    fetch('/get_ingredients')
+    // Fetch ingredients from the database
+    fetch('/api/ingredients')
         .then(response => response.json())
         .then(data => {
             existingIngredients = data.ingredients;
-            createIngredientAdd(); // Initialize with one ingredient field after fetching
+            createFirstIngredient(); // Initialize with first ingredient field after fetching
         })
         .catch(error => console.error('Error fetching ingredients:', error));
-    */
 
+    function createFirstIngredient() {
+        const ingredientDiv = document.createElement('div');
+        ingredientDiv.className = 'ingredient-add';
+    
+        const ingredientOptions = existingIngredients.map(ingredient => 
+            `<option value="${ingredient}">${ingredient}</option>`
+        ).join('');
+    
+        ingredientDiv.innerHTML = `
+            <label>Ingredient:</label>
+            <select name="ingredients[]" required>
+                <option value="">Select an ingredient...</option>
+                ${ingredientOptions}
+            </select><br><br>
+        `;
+    
+        ingredientContainer.appendChild(ingredientDiv);
+    }
+        
     function createIngredientAdd() {
         const ingredientDiv = document.createElement('div');
         ingredientDiv.className = 'ingredient-add';
@@ -27,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         ingredientDiv.innerHTML = `
             <label>Ingredient:</label>
-            <select name="ingredients[]" required>
+            <select name="ingredients[]">
+                <option value="">Select an ingredient...</option>
                 ${ingredientOptions}
             </select><br><br>
         `;
@@ -36,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     addIngredientButton.addEventListener('click', createIngredientAdd);
-    createIngredientAdd(); // Initialize with one ingredient field
 
     form.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -46,30 +61,33 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Gather recipe details
         const recipeData = {
-            name: formData.get('recipe_name'),
-            info: formData.get('recipe_info'),
+            recipe_name: formData.get('recipe_name'),
+            recipe_info: formData.get('recipe_info'),
             instructions: formData.get('instructions'),
-            ingredients: formData.getAll('ingredients[]')
+            ingredients: formData.getAll('ingredients[]').filter(ing => ing !== '')
         };
 
-        console.log(recipeData);
-
-        // Send recipeData to your server (example using fetch)
-        /*
-        fetch('/submit_recipe', {
+        // Send to server
+        fetch('/api/submit_recipe', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(recipeData)
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             alert('Recipe submitted successfully!');
+            window.location.href = '/recipelist';  // Redirect to recipe list
         })
         .catch((error) => {
             console.error('Error:', error);
+            alert('Error submitting recipe. Please try again.');
         });
-        */
     });
 });
