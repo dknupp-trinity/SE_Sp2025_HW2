@@ -14,10 +14,106 @@
     <%- include('./partials/nav')%>
 
     <main>
-        
-        
-        
+        <div class="recipe-selector"
+        style="background: rgba(255, 255, 255, 0.2);
+        padding: 10px;
+        margin-top:20px;
+        text-align: center;
+        color: black;
+        border-radius: 10px;">
+            <h2>Select a Recipe</h2>
+            <select id="recipe-select">
+                <option value="">Select</option>
+            </select>
+        </div>
+    
+        <div id="recipe-display" style="display: none; width: 500px;">
+            <h2 id="recipe-name"></h2>
+            <p id="recipe-description" style="font-style: italic;"></p>
+            
+            <div style="margin-top: 20px;">
+                <h3>Ingredients:</h3>
+                <ul id="recipe-ingredients" style="list-style-position: inside; padding-left: 5px; text-align: left; align-content: left; width: 400px"></ul>
+                
+                <h3>Instructions:</h3>
+                <p id="recipe-instructions" style="white-space: pre-line; margin: 10px 0;"></p>
+            </div>
+        </div>
     </main>
+    
+    
+    
+    
+    
+    
+    
+    <footer>
+        <h5>Page created by David Knupp</h5>
+        <div style="max-width: 500;">Resources used for this page:
+            <ul>
+            
+            </ul>
+        </div>
+    </footer>
+    
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const recipeSelect = document.getElementById('recipe-select');
+            const recipeDisplay = document.getElementById('recipe-display');
+            
+            // Load recipe names into dropdown
+            fetch('/api/recipe_names')
+                .then(response => response.json())
+                .then(recipes => {
+                    recipes.forEach(recipe => {
+                        const option = document.createElement('option');
+                        option.value = recipe.id;
+                        option.textContent = recipe.name;
+                        recipeSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error loading recipes:', error));
+            
+            // update to selection
+            recipeSelect.addEventListener('change', function() {
+                const selectedId = this.value;
+                if (!selectedId) {
+                    recipeDisplay.style.display = 'none';
+                    return;
+                }
+                
+                fetch(`/api/recipe/${selectedId}`)
+                    .then(response => response.json())
+                    .then(recipe => {
+                        document.getElementById('recipe-name').textContent = recipe.name;
+                        document.getElementById('recipe-description').textContent = recipe.description;
+                        
+                        const ingredientsList = document.getElementById('recipe-ingredients');
+                        ingredientsList.innerHTML = recipe.ingredients
+                            .split(',')
+                            .map(ing => `<li>${ing.trim()}</li>`)
+                            .join('');
+                        
+                        document.getElementById('recipe-instructions').textContent = recipe.instructions;
+                        
+                        recipeDisplay.style.display = 'block';
+                    })
+                    .catch(error => console.error('Error loading recipe details:', error));
+            });
+        });
+        </script>
+    
+    <style>
+        #recipe-ingredients li{
+            margin: 5px auto;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+    </style>
+    
     <script src="/js/scripts.js"></script>
 </body>
 </html>

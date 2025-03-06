@@ -15,9 +15,52 @@
     
     
     <main>
-        
+        <div id="recipe-container">
+            <!-- Recipes will be loaded here -->
+        </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/recipes_by_protein')
+                .then(response => response.json())
+                .then(recipesByProtein => {
+                    const container = document.getElementById('recipe-container');
+                    
+                    Object.entries(recipesByProtein).forEach(([protein, recipes]) => {
+                        const groupDiv = document.createElement('div');
+                        groupDiv.className = 'recipe-group';
+                        
+                        groupDiv.innerHTML = `
+                            <h2>${protein} Recipes</h2>
+                            ${recipes.map(recipe => `
+                                <div class="recipe-item">
+                                    <div class="recipe-name">${recipe.recipe_name}</div>
+                                    <div class="recipe-description">${recipe.recipe_description}</div>
+                                    <div class="recipe-ingredients">Ingredients: ${recipe.ingredients}</div>
+                                </div>
+                            `).join('')}
+                        `;
+                        
+                        container.appendChild(groupDiv);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading recipes:', error);
+                    document.getElementById('recipe-container').innerHTML = 
+                        '<p style="color: red;">Error loading recipes. Please try again later.</p>';
+                });
+        });
+    </script>
     
+    <footer>
+        <h5>Page created by David Knupp</h5>
+        <div style="max-width: 500;">Resources used for this page:
+            <ul>
+            
+            </ul>
+        </div>
+    </footer>
     
     <script src="/js/scripts.js"></script>
 </body>

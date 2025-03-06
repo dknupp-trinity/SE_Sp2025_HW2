@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const ingredientContainer = document.getElementById('ingredient-container');
     const form = document.getElementById('recipe-form');
 
-    // Fetch ingredients from the database
+    // Fetch possible ingredients from database
     fetch('/api/ingredients')
         .then(response => response.json())
         .then(data => {
@@ -31,6 +31,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
         ingredientContainer.appendChild(ingredientDiv);
     }
+    
+    function createRecipeGroup() {
+        const recipeGroupDiv = document.createElement('div');
+        recipeGroupDiv.className = 'recipe-group';
+    
+    
+        form.appendChild(recipeGroupDiv);
+    }
+    
+    
         
     function createIngredientAdd() {
         const ingredientDiv = document.createElement('div');
@@ -83,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             alert('Recipe submitted successfully!');
-            window.location.href = '/recipelist';  // Redirect to recipe list
+            window.location.href = '/recipelist';  // Redirect to recipe list?
         })
         .catch((error) => {
             console.error('Error:', error);

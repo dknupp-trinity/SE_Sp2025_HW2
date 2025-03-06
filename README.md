@@ -7,6 +7,11 @@
 
 3. Execute script in MySQL Workbench to create database
 
-4. Add recipe_db as your database name in .env
+4. Add the following to a .env file in the workspace:
+    PORT=3000
+    DATABASE_HOST=localhost
+    DATABASE_USER=<your sql username>
+    DATABASE_NAME=recipe_db
+    DATABASE_PASS=<your sql password>>
 
-45 Open service at localhost:3000
+5. Open service at localhost:3000 (tested in Chrome)

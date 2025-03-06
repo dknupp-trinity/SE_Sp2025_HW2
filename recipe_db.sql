@@ -33,7 +33,7 @@ CREATE TABLE recipe_ingredients (
 -- Insert Recipe 1
 
 INSERT INTO recipes (name, description, instructions, main_protein) 
-VALUES ('Grilled Lemon Herb Salmon', 'A grilled salmon dish with a zesty lemon herb marinade.', '1. Preheat grill to medium-high heat. 2. In a bowl, mix lemon juice, olive oil, garlic, and herbs. 3. Marinate salmon fillets in the mixture for at least 30 minutes. 4. Grill salmon for 4-5 minutes per side, or until cooked through. 5. Serve with your favorite side dishes.', 'Salmon');
+VALUES ('Grilled Lemon Herb Salmon', 'A grilled salmon dish with a zesty lemon herb marinade.', '1. Preheat grill to medium-high heat. 2. Mix all your mixables. 3. Marinate salmon in mixture. 4. Grill salmon for 4-5 minutes per side, or until cooked through. 5. Serve.', 'Fish');
 
 
 -- Insert ingredients
@@ -91,3 +91,20 @@ VALUES (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Fettuccine')),
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Black Pepper')), 
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Parsley')); 
 
+
+-- Insert Recipe 3 --------------------------------------------------------------------
+
+INSERT INTO recipes (name, description, instructions, main_protein) 
+VALUES ('Tuna Sashimi', 'Raw tuna slices with soy sauce and wasabi.', '1. slice tuna like a master sushi chef. 2. place soy sauce on the side. 3. Place wsabi on the side.', 'Fish');
+
+INSERT IGNORE INTO ingredients (name, description) 
+VALUES ('Tuna', 'Very big fish, popular in Japan'), 
+       ('Soy Sauce', 'Sauce made from soy'), 
+       ('Wasabi', 'Makes you wnder how green stuff can be so hot');
+
+SET @recipe_id = (SELECT id FROM recipes WHERE name = 'Tuna Sashimi');
+
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) 
+VALUES (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Tuna')),
+       (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Soy Sauce')), 
+       (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Wasabi'));

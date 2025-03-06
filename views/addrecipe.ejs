@@ -13,9 +13,14 @@
     <%- include('./partials/header') %>
     <%- include('./partials/nav')%>
     
-    <main>
+    <main style="padding-bottom: 20px;">
+        
+        <h2>Add a new recipe:</h2>
     <h2>Add a new recipe:</h2>
-    <form id="recipe-form">
+    <form id="recipe-form" style="anchor-name: --form;">
+        
+        <img src="graphics/SNW_Chef_Toad.png" alt="" style="max-block-size: 200px; position: absolute; right: anchor(--form left)">
+        <img src="graphics/Shy_Guy_(Pastry_Chef).png" alt="" style="max-block-size: 200px; position: absolute; left: anchor(--form right)">
         
         <label for="recipe-name">Recipe Name:</label><br>
         <input
@@ -66,9 +71,8 @@
 </main>
     
 <footer>
-    
     <h5>Page created by David Knupp</h5>
-    <div>Resources used for this page:
+    <div style="max-width: 500;">Resources used for this page:
         <ul>
         <li> Copilot for instructions on how to generate a preconfigured element repeatedly</li>
         <li>Copilot to also help with routing script because I was confused for hours (and still am)</li>

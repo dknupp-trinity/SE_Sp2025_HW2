@@ -4,12 +4,14 @@ const connection = require('../database/connections');
 
 
 
-// Get all recipes
-router.get('/recipes', (req, res) => {
-    const query = 'SELECT * FROM recipes';
-    db.query(query, (err, results) => {
+//getrecipe routes
+
+//recipe names list
+router.get('/recipe_names', (req, res) => {
+    const sql = 'SELECT id, name FROM recipes ORDER BY name';
+    connection.query(sql, (err, results) => {
         if (err) {
-            console.error('Error fetching recipes:', err);
+            console.error('Error fetching recipe names:', err);
             res.status(500).json({ error: 'Internal server error' });
             return;
         }
@@ -17,7 +19,37 @@ router.get('/recipes', (req, res) => {
     });
 });
 
-// Get ingredients for the dropdown - assisted by Claude
+
+//Get selected recipe and ingredients
+router.get('/recipe/:id', (req, res) => {
+    const recipeId = req.params.id;
+    const sql = `
+        SELECT r.*, GROUP_CONCAT(i.name) as ingredients
+        FROM recipes r
+        LEFT JOIN recipe_ingredients ri ON r.id = ri.recipe_id
+        LEFT JOIN ingredients i ON ri.ingredient_id = i.id
+        WHERE r.id = ?
+        GROUP BY r.id
+    `;
+    
+    connection.query(sql, [recipeId], (err, results) => {
+        if (err) {
+            console.error('Error fetching recipe:', err);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        res.json(results[0]);
+    });
+});
+
+
+
+
+
+
+//addrecipe routes
+
+// Get ingredients for addrecipe dropdown - assisted by Claude
 router.get('/ingredients', (req, res) => {
     const sql = 'SELECT name FROM ingredients';
     connection.query(sql, (err, results) => {
@@ -30,9 +62,6 @@ router.get('/ingredients', (req, res) => {
         res.json({ ingredients });
     });
 });
-
-//FIXME Submit - 2 versions?
-
 
 router.post('/recipes', (req, res) => {
     const { name, description, instructions, mainprotein_id } = req.body;
@@ -92,6 +121,24 @@ router.post('/submit_recipe', (req, res) => {
                 res.status(201).json({ message: 'Recipe created successfully' });
             });
         });
+    });
+});
+
+
+
+// Route to get recipes sorted by main protein
+router.get('/recipes', (req, res) => {
+    const sql = `
+    SELECT r.name AS recipe_name, r.description AS recipe_description, r.instructions, r.main_protein, i.name AS ingredient_name, i.description AS ingredient_description
+    FROM recipes r
+    JOIN recipe_ingredients ri ON r.id = ri.recipe_id
+    JOIN ingredients i ON ri.ingredient_id = i.id
+    ORDER BY r.main_protein;
+    `;
+
+    connection.query(sql, (err, results) => {
+        if (err) throw err;
+        res.json(results);
     });
 });
 

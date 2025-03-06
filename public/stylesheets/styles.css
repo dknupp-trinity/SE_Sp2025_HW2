@@ -59,7 +59,7 @@ nav {
     text-decoration: none;
 }
 
-@keyframes headerGradient {
+@keyframes mainGradient {
     0% {
         background-position: 100% 100%;
     }
@@ -90,9 +90,9 @@ main {
     background-position: 100% 100%;
     background-size: 200% 250%;
     background-origin: padding-box;
-    animation-name: headerGradient;
-    animation-duration: 100s;
-    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); /* Smooth circular timing - thanks to ChatGPT*/
+    animation-name: mainGradient;
+    animation-duration: 90s;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); /* Smooth circular timing -  bezier math assisted by ChatGPT*/
     animation-iteration-count: infinite;
     animation-play-state: running;
 }
@@ -105,12 +105,14 @@ main {
 
 
 footer {
-    background: linear-gradient(to top, black, powderblue);
+    background: linear-gradient(to bottom, lightgreen, teal);
     color: white;
     padding: 1rem 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
+    list-style-position: inside;
     width: 100%;
 }
 
@@ -136,6 +138,27 @@ button:hover {
     background-color: #45a049;
 }
 
+.recipe-group {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    color: black;
+}
+.recipe-item {
+    margin: 10px 0;
+    padding: 10px;
+    background: rgba(240, 240, 240, 0.9);
+    border-radius: 5px;
+}
+.recipe-name {
+    font-weight: bold;
+    color: #333;
+}
+.recipe-description {
+    font-style: italic;
+    color: #666;
+}
 
 div ~ p {
     
