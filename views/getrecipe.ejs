@@ -14,8 +14,15 @@
     <%- include('./partials/nav')%>
 
     <main>
+        <section id="PageHeader" style="display:flex; flex-direction: row; justify-content: center; align-items: center; position: relative; padding-top: 50px; padding-right: 70px;">
+
+            <img src="graphics/PPS_Patissiere_Peach_Artwork_2.png" alt="" style="max-block-size: 200px;">
+            <h2 style="padding: 30px;">Recipe Selector</h2>
+            <img src="graphics/Rosalina_(Chef).png" alt="" style="max-block-size: 200px;">
+            
+        </section>
         <div class="recipe-selector"
-        style="background: rgba(255, 255, 255, 0.2);
+        style="background: powderblue;
         padding: 10px;
         margin-top:20px;
         text-align: center;
@@ -29,14 +36,19 @@
     
         <div id="recipe-display" style="display: none; width: 500px;">
             <h2 id="recipe-name"></h2>
-            <p id="recipe-description" style="font-style: italic;"></p>
+            <p id="recipe-description" style="font-style: italic;">
+                
+            </p>
             
-            <div style="margin-top: 20px;">
+            <div style="margin-top: 20px; align-content: center; justify-content: center; align-items: center;">
                 <h3>Ingredients:</h3>
-                <ul id="recipe-ingredients" style="list-style-position: inside; padding-left: 5px; text-align: left; align-content: left; width: 400px"></ul>
+                <ul id="recipe-ingredients" style="list-style-position: inside; padding-left: 5px; text-align: left; align-content: center; width: 400px">
+                    <!--Stuff goes here?-->
+                </ul>
                 
                 <h3>Instructions:</h3>
                 <p id="recipe-instructions" style="white-space: pre-line; margin: 10px 0;"></p>
+                <br><br>
             </div>
         </div>
     </main>
@@ -51,7 +63,8 @@
         <h5>Page created by David Knupp</h5>
         <div style="max-width: 500;">Resources used for this page:
             <ul>
-            
+                <li>ChatGPT for MySQL help</li>
+                <li>Nintendo character images from various Nintendo wikis</li>
             </ul>
         </div>
     </footer>
@@ -76,7 +89,7 @@
                 })
                 .catch(error => console.error('Error loading recipes:', error));
             
-            // update to selection
+            // Update to selection
             recipeSelect.addEventListener('change', function() {
                 const selectedId = this.value;
                 if (!selectedId) {
@@ -85,25 +98,65 @@
                 }
                 
                 fetch(`/api/recipe/${selectedId}`)
-                    .then(response => response.json())
-                    .then(recipe => {
-                        document.getElementById('recipe-name').textContent = recipe.name;
-                        document.getElementById('recipe-description').textContent = recipe.description;
-                        
-                        const ingredientsList = document.getElementById('recipe-ingredients');
-                        ingredientsList.innerHTML = recipe.ingredients
-                            .split(',')
-                            .map(ing => `<li>${ing.trim()}</li>`)
-                            .join('');
-                        
-                        document.getElementById('recipe-instructions').textContent = recipe.instructions;
-                        
-                        recipeDisplay.style.display = 'block';
-                    })
-                    .catch(error => console.error('Error loading recipe details:', error));
+    .then(response => response.json())
+    .then(recipe => {
+        document.getElementById('recipe-name').textContent = recipe.name;
+        document.getElementById('recipe-description').textContent = recipe.description;
+        
+        const ingredientsList = document.getElementById('recipe-ingredients');
+        ingredientsList.innerHTML = '';
+        
+        try {
+            const ingredients = typeof recipe.ingredients === 'string' 
+                ? JSON.parse(recipe.ingredients) 
+                : recipe.ingredients;
+            
+            console.log('Parsed ingredients:', ingredients); // Add this log
+            
+            if (!ingredients || ingredients.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = 'No ingredients listed';
+                ingredientsList.appendChild(li);
+                return;
+            }
+
+            ingredients.forEach(ingredient => {
+                const li = document.createElement('li');
+                li.textContent = ingredient.name;
+                li.addEventListener('mouseover', function(event) {
+                    showPopup(event, ingredient.description);
+                });
+                li.addEventListener('mouseout', hidePopup);
+                ingredientsList.appendChild(li);
             });
+        } catch (error) {
+            console.error('Recipe.ingredients:', recipe.ingredients);
+        }
+        
+        document.getElementById('recipe-instructions').textContent = recipe.instructions;
+        recipeDisplay.style.display = 'block';
+    })
+    .catch(error => console.error('Error loading recipe details:', error));
+            });
+    
+            // Popup reveal and style
+            const popup = document.createElement('div');
+            popup.id = 'ingredient-popup';
+            popup.style.display = 'none';
+            document.body.appendChild(popup);
+    
+            function showPopup(event, description) {
+                popup.textContent = description;
+                popup.style.left = `${event.pageX + 10}px`;
+                popup.style.top = `${event.pageY + 10}px`;
+                popup.style.display = 'block';
+            }
+    
+            function hidePopup() {
+                popup.style.display = 'none';
+            }
         });
-        </script>
+    </script>
     
     <style>
         #recipe-ingredients li{

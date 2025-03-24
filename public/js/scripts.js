@@ -3,45 +3,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const addIngredientButton = document.getElementById('add-ingredient');
     const ingredientContainer = document.getElementById('ingredient-container');
     const form = document.getElementById('recipe-form');
+    const mainProteinSelect = document.getElementById('main-protein');
 
     // Fetch possible ingredients from database
     fetch('/api/ingredients')
         .then(response => response.json())
         .then(data => {
             existingIngredients = data.ingredients;
-            createFirstIngredient(); // Initialize with first ingredient field after fetching
+            console.log('Fetched ingredients:', existingIngredients); // Debug log
+
+            populateMainProteinOptions(); // Populate the main protein dropdown
         })
         .catch(error => console.error('Error fetching ingredients:', error));
 
-    function createFirstIngredient() {
-        const ingredientDiv = document.createElement('div');
-        ingredientDiv.className = 'ingredient-add';
-    
-        const ingredientOptions = existingIngredients.map(ingredient => 
+    function populateMainProteinOptions() {
+        const options = existingIngredients.map(ingredient => 
             `<option value="${ingredient}">${ingredient}</option>`
         ).join('');
-    
-        ingredientDiv.innerHTML = `
-            <label>Ingredient:</label>
-            <select name="ingredients[]" required>
-                <option value="">Select an ingredient...</option>
-                ${ingredientOptions}
-            </select><br><br>
-        `;
-    
-        ingredientContainer.appendChild(ingredientDiv);
+        mainProteinSelect.innerHTML += options;
     }
-    
-    function createRecipeGroup() {
-        const recipeGroupDiv = document.createElement('div');
-        recipeGroupDiv.className = 'recipe-group';
-    
-    
-        form.appendChild(recipeGroupDiv);
-    }
-    
-    
-        
+
     function createIngredientAdd() {
         const ingredientDiv = document.createElement('div');
         ingredientDiv.className = 'ingredient-add';
@@ -52,10 +33,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         ingredientDiv.innerHTML = `
             <label>Ingredient:</label>
-            <select name="ingredients[]">
+            <select name="ingredients[]" class="ingredient-select">
                 <option value="">Select an ingredient...</option>
                 ${ingredientOptions}
-            </select><br><br>
+            </select>
+            <button type="button" class="remove-ingredient" onclick="this.parentElement.remove()">Remove</button>
+            <br><br>
         `;
 
         ingredientContainer.appendChild(ingredientDiv);
@@ -68,14 +51,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Collect form data
         const formData = new FormData(form);
-        
+        const mainProtein = formData.get('main_protein');
+        const ingredients = Array.from(formData.getAll('ingredients[]')).filter(ing => ing !== '');
+
         // Gather recipe details
         const recipeData = {
             recipe_name: formData.get('recipe_name'),
             recipe_info: formData.get('recipe_info'),
             instructions: formData.get('instructions'),
-            ingredients: formData.getAll('ingredients[]').filter(ing => ing !== '')
+            main_protein: mainProtein,
+            ingredients: ingredients
         };
+
+        console.log('Collected recipe data:', recipeData); // Debug log
 
         // Send to server
         fetch('/api/submit_recipe', {
@@ -93,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             alert('Recipe submitted successfully!');
-            window.location.href = '/recipelist';  // Redirect to recipe list?
+            window.location.href = '/recipelist';  // Redirect to recipe list
         })
         .catch((error) => {
             console.error('Error:', error);

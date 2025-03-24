@@ -8,6 +8,8 @@ body {
     background: white;
     display: flex;
     margin: 0;
+    border: 0;
+    box-sizing: border-box;
     flex-direction: column;
     height: 100%;
     flex: 1;
@@ -39,7 +41,6 @@ nav {
     width: 100%;
     text-align: center;
 }
-
 
 
 .navitem {
@@ -138,30 +139,81 @@ button:hover {
     background-color: #45a049;
 }
 
+
+
+
+
+/*Recipe Stuff*/
+
+
+/*recipelist*/
 .recipe-group {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    margin: 20px;
+    background: powderblue;
+    padding: 10px;
+    margin: 10px;
     border-radius: 10px;
     color: black;
 }
 .recipe-item {
     margin: 10px 0;
     padding: 10px;
-    background: rgba(240, 240, 240, 0.9);
+    background: plum;
     border-radius: 5px;
 }
 .recipe-name {
     font-weight: bold;
-    color: #333;
+    color: black;
 }
 .recipe-description {
     font-style: italic;
-    color: #666;
-}
-
-div ~ p {
-    
+    color: slategray;
 }
 
 
+/*getrecipe*/
+
+#recipe-ingredients li {
+    align-self: center;
+    margin: 5px auto;
+    padding: 5px;
+    width: 500px;
+    background: rgba(222, 222, 222, 0.2);
+    border-radius: 5px;
+    cursor: help;
+    transition: background-color 0.2s;
+}
+
+#recipe-ingredients li:hover {
+    background: powderblue;
+}
+
+#ingredient-popup {
+    z-index: 1000;
+    pointer-events: none;
+    font-size: 16px;
+    max-width: 200px;
+    word-wrap: break-word;
+    position: absolute;
+    background: plum;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+
+/*Form stuff*/
+#recipe-name-div label,
+#recipe-description-div label,
+#recipe-directions-div label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#recipe-name-div input,
+#recipe-description-div textarea,
+#recipe-directions-div textarea {
+    width: 300px; /* Set a consistent width for inputs and textareas */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}

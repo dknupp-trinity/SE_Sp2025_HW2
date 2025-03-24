@@ -38,7 +38,7 @@ VALUES ('Grilled Lemon Herb Salmon', 'A grilled salmon dish with a zesty lemon h
 
 -- Insert ingredients
 INSERT IGNORE INTO ingredients (name, description) 
-VALUES ('Salmon Fillet', 'Fresh salmon fillets'), 
+VALUES ('Salmon', 'Fresh salmon fillets'), 
        ('Lemon Juice', 'Freshly squeezed (or not) lemon juice'), 
        ('Olive Oil', 'Extra virgin olive oil - the virginer, the betterer'), 
        ('Garlic', 'Minced garlic cloves.'), 
@@ -50,7 +50,7 @@ SET @recipe_id = (SELECT id FROM recipes WHERE name = 'Grilled Lemon Herb Salmon
 
 -- Map recipe ID to ID of ingredient name
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id) 
-VALUES (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Salmon Fillet')),
+VALUES (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Salmon')),
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Lemon Juice')),
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Olive Oil')),
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Garlic')),
@@ -67,7 +67,7 @@ VALUES ('Chicken Alfredo', 'A creamy and delicious pasta dish with grilled chick
 INSERT IGNORE INTO ingredients (name, description) 
 VALUES ('Fettuccine', 'Long, flat pasta.'), 
        ('Olive Oil', 'Extra virgin olive oil - the virginer, the betterer'), 
-       ('Chicken Breasts', 'Boneless, skinless chicken breasts.'), 
+       ('Chicken', 'Boneless, skinless chicken breasts.'), 
        ('Butter', 'Unsalted butter.'), 
        ('Garlic', 'Minced garlic cloves.'), 
        ('Heavy Cream', 'Rich and creamy heavy cream.'), 
@@ -82,7 +82,7 @@ SET @recipe_id = (SELECT id FROM recipes WHERE name = 'Chicken Alfredo');
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id) 
 VALUES (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Fettuccine')),
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Olive Oil')), 
-       (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Chicken Breasts')),
+       (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Chicken')),
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Butter')),
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Garlic')),
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Heavy Cream')),
@@ -95,12 +95,12 @@ VALUES (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Fettuccine')),
 -- Insert Recipe 3 --------------------------------------------------------------------
 
 INSERT INTO recipes (name, description, instructions, main_protein) 
-VALUES ('Tuna Sashimi', 'Raw tuna slices with soy sauce and wasabi.', '1. slice tuna like a master sushi chef. 2. place soy sauce on the side. 3. Place wsabi on the side.', 'Fish');
+VALUES ('Tuna Sashimi', 'Raw tuna slices with soy sauce and wasabi.', '1. slice tuna like a master sushi chef. 2. place soy sauce on the side. 3. Place wasabi on the side.', 'Fish');
 
 INSERT IGNORE INTO ingredients (name, description) 
 VALUES ('Tuna', 'Very big fish, popular in Japan'), 
        ('Soy Sauce', 'Sauce made from soy'), 
-       ('Wasabi', 'Makes you wnder how green stuff can be so hot');
+       ('Wasabi', 'Makes you wonder how green can be so hot');
 
 SET @recipe_id = (SELECT id FROM recipes WHERE name = 'Tuna Sashimi');
 
@@ -108,3 +108,24 @@ INSERT INTO recipe_ingredients (recipe_id, ingredient_id)
 VALUES (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Tuna')),
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Soy Sauce')), 
        (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Wasabi'));
+       
+       
+       
+-- Insert Recipe 4 --------------------------------------------------------------------
+
+INSERT INTO recipes (name, description, instructions, main_protein) 
+VALUES ('Beef Tacos', 'Ground beef in a taco shell with taco seasoning.', '1. Grind beef. 2. Stir in taco seasoning. 3. Cook beef until desired doneness. 4. Plop it in a taco shell. 5. Top with shredded cheese', 'Beef');
+
+INSERT IGNORE INTO ingredients (name, description) 
+VALUES ('Beef', 'Chef vocabulary for Cow'), 
+       ('Taco Shell', 'Bought fresh from the bread aisle'), 
+       ('Taco Seasoning', 'Mix of mild spices'),
+       ('Shredded Cheese', 'Finely shredded cheese');
+
+SET @recipe_id = (SELECT id FROM recipes WHERE name = 'Beef Tacos');
+
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id) 
+VALUES (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Beef')),
+       (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Taco Shell')),
+       (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Taco Seasoning')), 
+       (@recipe_id, (SELECT id FROM ingredients WHERE name = 'Shredded Cheese'));

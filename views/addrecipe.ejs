@@ -9,76 +9,99 @@
 </head>
 
 <body>
-    
-    <%- include('./partials/header') %>
-    <%- include('./partials/nav')%>
-    
-    <main style="padding-bottom: 20px;">
-        
-        <h2>Add a new recipe:</h2>
-    <h2>Add a new recipe:</h2>
-    <form id="recipe-form" style="anchor-name: --form;">
-        
-        <img src="graphics/SNW_Chef_Toad.png" alt="" style="max-block-size: 200px; position: absolute; right: anchor(--form left)">
-        <img src="graphics/Shy_Guy_(Pastry_Chef).png" alt="" style="max-block-size: 200px; position: absolute; left: anchor(--form right)">
-        
-        <label for="recipe-name">Recipe Name:</label><br>
-        <input
-            type="text"
-            id="recipe-name"
-            name="recipe_name"
-            required
-            oninvalid="this.setCustomValidity('Stop! This recipe is RAW!')"
-            oninput="this.setCustomValidity('')"
-            >
-            <br><br>
 
-        <label for="recipe-info">Recipe Description:</label><br>
-        <textarea
-            id="recipe-info"
-            name="recipe_info"
-            required
-            oninvalid="this.setCustomValidity('Stop! This description is RAW!')"
-            oninput="this.setCustomValidity('')"
-            ></textarea><br><br>
+    <%- include('./partials/header')%>
+        <%- include('./partials/nav')%>
 
-        <label for="instructions">Recipe Directions:</label><br>
-        <textarea
-        id="instructions"
-        name="instructions"
-        required
-        oninvalid="this.setCustomValidity('Stop! These instructions are RAW!')"
-        oninput="this.setCustomValidity('')"
-        ></textarea><br>
-        
-        <section id="ingredients">
-        <h3 style="max-width: 400px; margin: auto;">Use the <em>Add Another Ingredient</em> button to include more ingredients before submitting the recipe (optional). <br><br>
-            You may select any items from our professionally curated list of gourmet partial-foodstuffs.
-            <br><br>
-            You can describe quantities in the Directions field above. Otherwise, the units of measurement are irrelevant, as we have our chef instincts to guide us.</h3>
-        <h6><small>(and because I don't want to account for <br> like 10 different units of measurement)</small></h6>
-        
-        <div id="ingredient-container">
-           
-        </div>
-        <button type="button" id="add-ingredient">Add Another Ingredient</button><br><br>
+            <main style="padding-bottom: 20px;">
 
-        <button type="submit">Submit Recipe</button>
-    </form>
-    
-    </section>
-        
-</main>
-    
-<footer>
-    <h5>Page created by David Knupp</h5>
-    <div style="max-width: 500;">Resources used for this page:
-        <ul>
-        <li> Copilot for instructions on how to generate a preconfigured element repeatedly</li>
-        <li>Copilot to also help with routing script because I was confused for hours (and still am)</li>
-        </ul>
-    </div>
-</footer>
-<script src="/js/scripts.js"></script>
+                <section id="PageHeader"
+                    style="display:flex; flex-direction: row; justify-content: center; align-items: center; position: relative;padding-top: 50px;">
+                    <h2>Add a New Recipe</h2>
+                </section>
+
+                <section id="forms" style=>
+                    <form id="recipe-form" style="justify-content: center; align-items: center;">
+
+                        <div id="images-and-fields" style="display:flex; flex-direction: row; justify-content: center; align-items: center; position: relative; padding-left: 80px; ">
+                            
+                        <img src="graphics/Shy_Guy_(Pastry_Chef).png" alt="" style="max-block-size: 200px;">
+                        
+                        <div id="textfields" style="display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; padding: 30px;">
+                            
+                            <div id="recipe-name-div" style="align-items: center; text-align: center; margin-bottom: 15px;">
+                                <label for="recipe-name">Recipe Name:</label><br>
+                                <input type="text" id="recipe-name" name="recipe_name" required
+                                    oninvalid="this.setCustomValidity('Stop! This recipe is RAW!')"
+                                    oninput="this.setCustomValidity('')">
+                                <br><br>
+                            </div>
+
+                            <div id="recipe-description-div" style="align-items: center; text-align: center; margin-bottom: 15px;">
+                                <label for="recipe-info">Recipe Description:</label><br>
+                                <textarea id="recipe-info" name="recipe_info" required
+                                    oninvalid="this.setCustomValidity('Stop! This description is RAW!')"
+                                    oninput="this.setCustomValidity('')"></textarea>
+                                <br><br>
+                            </div>
+
+                            <div id="recipe-directions-div" style="align-items: center; text-align: center; margin-bottom: 15px;">
+                                <label for="instructions">Recipe Directions:</label><br>
+                                <textarea id="instructions" name="instructions" required
+                                    oninvalid="this.setCustomValidity('Stop! These instructions are RAW!')"
+                                    oninput="this.setCustomValidity('')"></textarea>
+                                <br>
+                            </div>
+                            
+                        </div>
+                        <img src="graphics/SNW_Chef_Toad.png" alt="" style="max-block-size: 200px;">
+                    </div>
+                </section>
+
+                <section id="ingredients">
+                    <h3 style="max-width: 400px; margin: auto;">Use the <em>Add Another Ingredient</em> button to
+                        include more ingredients before submitting the recipe (optional). <br><br>
+                        You may select any items from our professionally curated list of gourmet partial-foodstuffs.
+                        <br><br>
+                        You can describe measurement quantities in the Directions field above. Otherwise, the units of
+                        measurement are irrelevant, as we have our chef instincts to guide us.
+                    </h3>
+                    <h6><small>(and because I don't want to account for <br> like 10 different units of
+                            measurement)</small></h6>
+
+                    <div id="main-protein-div" style="align-items: center; text-align: center; margin-bottom: 15px;">
+                        <label for="main-protein">Main Protein (Required):</label><br>
+                        <select id="main-protein" name="main_protein" required>
+                            <option value="">Select MAIN PROTEIN</option>
+                        </select>
+                        <br><br>
+                    </div>
+                
+                    <div id="ingredient-container">
+                        <!-- Additional ingredients will be added here -->
+                    </div>
+                    <button type="button" id="add-ingredient">Add Another Ingredient</button>
+                    <br><br>
+
+                    <button type="submit">Submit Recipe</button>
+                    </form>
+
+                </section>
+
+            </main>
+
+            <footer>
+                <h5>Page created by David Knupp</h5>
+                <div style="max-width: 500;">Resources used for this page:
+                    <ul>
+                        <li> Copilot for instructions on how to generate a preconfigured element repeatedly</li>
+                        <li>Copilot to also help with routing script because I was confused for hours (and still am)
+                        </li>
+                        <li>Nintendo character images from various Nintendo wikis</li>
+                    </ul>
+                </div>
+            </footer>
+            <script src="/js/scripts.js"></script>
 </body>
+
 </html>

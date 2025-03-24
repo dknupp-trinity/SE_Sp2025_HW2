@@ -9,30 +9,37 @@
 </head>
 
 <body>
-    
-    <%- include('./partials/header') %>
-    <%- include('./partials/nav')%>
-    
-    
-    <main>
-        <div id="recipe-container">
-            <!-- Recipes will be loaded here -->
-        </div>
-    </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/api/recipes_by_protein')
-                .then(response => response.json())
-                .then(recipesByProtein => {
-                    const container = document.getElementById('recipe-container');
+    <%- include('./partials/header') %>
+        <%- include('./partials/nav')%>
+
+
+            <main>
+                <section id="PageHeader" style="display:flex; flex-direction: row; justify-content: center; align-items: center; position: relative;padding-top: 30px;">
+
+                    <img src="graphics/KSA_Cook_Artwork.png" alt="" style="max-block-size: 200px;">
+                    <h2 style="padding: 30px;">Recipe List (Grouped by Main Protein)</h2>
+                    <img src="graphics/Toad_dropping_plates_Super_Nintendo_World_render.png" alt="" style="max-block-size: 200px;">
                     
-                    Object.entries(recipesByProtein).forEach(([protein, recipes]) => {
-                        const groupDiv = document.createElement('div');
-                        groupDiv.className = 'recipe-group';
-                        
-                        groupDiv.innerHTML = `
-                            <h2>${protein} Recipes</h2>
+                </section>
+                <div id="recipe-container">
+                    <!-- Recipes -->
+                </div>
+            </main>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    fetch('/api/recipes_by_protein')
+                        .then(response => response.json())
+                        .then(recipesByProtein => {
+                            const container = document.getElementById('recipe-container');
+
+                            Object.entries(recipesByProtein).forEach(([protein, recipes]) => {
+                                const groupDiv = document.createElement('div');
+                                groupDiv.className = 'recipe-group';
+
+                                groupDiv.innerHTML = `
+                            <h4>${protein} Recipes</h4>
                             ${recipes.map(recipe => `
                                 <div class="recipe-item">
                                     <div class="recipe-name">${recipe.recipe_name}</div>
@@ -41,27 +48,29 @@
                                 </div>
                             `).join('')}
                         `;
-                        
-                        container.appendChild(groupDiv);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading recipes:', error);
-                    document.getElementById('recipe-container').innerHTML = 
-                        '<p style="color: red;">Error loading recipes. Please try again later.</p>';
+
+                                container.appendChild(groupDiv);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error loading recipes:', error);
+                            document.getElementById('recipe-container').innerHTML =
+                                '<p style="color: red;">Error</p>';
+                        });
                 });
-        });
-    </script>
-    
-    <footer>
-        <h5>Page created by David Knupp</h5>
-        <div style="max-width: 500;">Resources used for this page:
-            <ul>
-            
-            </ul>
-        </div>
-    </footer>
-    
-    <script src="/js/scripts.js"></script>
+            </script>
+
+            <footer>
+                <h5>Page created by David Knupp</h5>
+                <div style="max-width: 500;">Resources used for this page:
+                    <ul>
+                        <li>ChatGPT for routing help</li>
+                        <li>Nintendo character images from various Nintendo wikis</li>
+                    </ul>
+                </div>
+            </footer>
+
+            <script src="/js/scripts.js"></script>
 </body>
+
 </html>
